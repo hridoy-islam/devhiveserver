@@ -26,11 +26,6 @@ async function main() {
 }
 
 
-
-
-
-
-
 // userRoute
 
 app.use('/user', UserRoute)
