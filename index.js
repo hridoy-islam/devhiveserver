@@ -56,7 +56,6 @@ const options = {
 const specs = swaggerJsdoc(options);
 
 
-
 // userRoute
 
 app.use('/user', UserRoute)
