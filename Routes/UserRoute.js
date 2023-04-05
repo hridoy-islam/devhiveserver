@@ -4,18 +4,12 @@ const router = express.Router()
 
 
 // define the home page route
-// router.get('/', getUser)
 
-// router.get('/:id', singleUser)
+router.post('/', createUser)
 
+router.get('/', getUser)
 
-router.post('/user', createUser)
-
-router.get('/user', getUser)
-
-router.get('/user/:id', singleUser)
-
-
+router.get('/:id', singleUser)
 
 router.delete('/', deleteUser)
 
