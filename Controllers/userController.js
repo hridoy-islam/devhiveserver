@@ -2,6 +2,7 @@
     res.json("user get")
 } 
  const singleUser = async (req, res) =>{
+    // 1 ta user 
     res.json("user singleId")
 } 
  const deleteUser = async (req, res) =>{
@@ -13,7 +14,6 @@
 } 
  const updateUser = async (req, res) =>{
     res.json("user created")
-} 
-
+}
 
 module.exports={createUser, getUser, deleteUser, updateUser, singleUser}
