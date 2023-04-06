@@ -1,19 +1,28 @@
- const getUser = async (req, res) =>{
-    res.json("user get")
-} 
- const singleUser = async (req, res) =>{
-    res.json("user singleId")
-} 
- const deleteUser = async (req, res) =>{
-    res.json("user created")
-} 
+const UserModel = require('../Model/userModel')
+
+
  const createUser = async (req, res) =>{
-    console.log(req.body)
-    res.json("user created")
+    const newUser = req.body;
+    const result = await UserModel.create(newUser)
+    console.log(result)
+    res.send(result)
 } 
+const getUser = async (req, res) =>{
+    const users = await UserModel.find({}).limit(20);
+    res.json(users);
+    
+}
+const singleUser = async (req, res) =>{
+    const user = await UserModel.findById(req.params.id);
+    res.json(user);
+    
+}
  const updateUser = async (req, res) =>{
     res.json("user created")
 } 
 
+const deleteUser = async (req, res) =>{
+    res.json("user created")
+} 
 
 module.exports={createUser, getUser, deleteUser, updateUser, singleUser}
