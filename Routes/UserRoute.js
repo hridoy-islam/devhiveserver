@@ -11,7 +11,7 @@ router.get('/', getUser)
 
 router.get('/:id', singleUser)
 
-router.delete('/', deleteUser)
+router.delete('/:id', deleteUser)
 
 router.patch('/:id', updateUser)
 
