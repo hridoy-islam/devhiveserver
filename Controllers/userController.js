@@ -18,11 +18,20 @@ const singleUser = async (req, res) =>{
     
 }
  const updateUser = async (req, res) =>{
-    res.json("user created")
+    const id = req.params.id;
+    const updatedValue = req.body
+    const filter = {_id: id};
+    const user = await UserModel.findOneAndUpdate(filter, updatedValue, {
+        new: true,
+    })
+    res.send(user)
 } 
 
 const deleteUser = async (req, res) =>{
-    res.json("user created")
+    const id = req.params.id;
+    const user = await UserModel.deleteOne({id});
+    console.log(user)
+    res.send(user)
 } 
 
 module.exports={createUser, getUser, deleteUser, updateUser, singleUser}
