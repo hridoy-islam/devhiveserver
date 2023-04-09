@@ -1,14 +1,21 @@
-import { Schema , model} from 'mongoose';
+const mongoose = require("mongoose");
+const userSchema = mongoose.Schema(
+  {
+    name: { type: String, trim: true, required: true },
+    email: { type: String, trim: true, required: true, unique: true },
+    uid: { type: String, trim: true, required: true },
+    verified: { type: Boolean, trim: true, required: true },
+    pic: {
+      type: String,
+      default:
+        "https://e1.pngegg.com/pngimages/444/382/png-clipart-frost-pro-for-os-x-icon-set-now-free-contacts-male-profile.png",
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
-const userSchema = new Schema({
-  userName: String, // String is shorthand for {type: String}
-  email: String,
-  
-});
+const User = mongoose.model("User", userSchema);
 
-
-
-
-
-
-module.exports = model('user', userSchema)
+module.exports = User;
