@@ -1,18 +1,24 @@
- const getUser = async (req, res) =>{
-    res.json("user get")
-} 
- const singleUser = async (req, res) =>{
-    // 1 ta user 
-    res.json("user singleId")
-} 
- const deleteUser = async (req, res) =>{
-    res.json("user created")
-} 
+const UserModel = require('../Model/userModel')
+
  const createUser = async (req, res) =>{
-    console.log(req.body)
-    res.json("user created")
+    const newUser = req.body;
+    const result = await UserModel.create(newUser)
+    res.send(result)
 } 
- const updateUser = async (req, res) =>{
+const getUser = async (req, res) =>{
+    const users = await UserModel.find({}).limit(20);
+    res.json(users);
+    
+}
+const singleUser = async (req, res) =>{
+    const user = await UserModel.findById(req.params.id);
+    res.json(user);
+}
+const updateUser = async (req, res) =>{
+    res.json("user created")
+}
+
+const deleteUser = async (req, res) =>{
     res.json("user created")
 }
 
