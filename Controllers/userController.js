@@ -1,12 +1,7 @@
 const User = require("../Model/userModel");
 const generateToken = require("../config/generateToken");
 const asyncHandler = require("express-async-handler");
-const singleUser = async (req, res) => {
-  res.json("user singleId");
-};
-const deleteUser = async (req, res) => {
-  res.json("user created");
-};
+
 const createUser = asyncHandler(async (req, res) => {
   const { name, email, uid, verified, pic } = req.body;
   console.log(req.body);
@@ -40,9 +35,6 @@ const createUser = asyncHandler(async (req, res) => {
     throw new Error("Invalid user data");
   }
 });
-const updateUser = async (req, res) => {
-  res.json("user created");
-};
 
 const getUser = asyncHandler(async (req, res) => {
   const keyword = req.query.search
@@ -54,14 +46,31 @@ const getUser = asyncHandler(async (req, res) => {
       }
     : {};
 
-  //send top 7 results
-  const users = await User.find({ ...keyword })
-    .find({
-      _id: { $ne: req?.user?._id },
-    })
-    .limit(7);
-  // const users = await User.find({ ...keyword }).find;
-  res.json(users);
 });
+
+
+
+const singleUser = async (req, res) =>{
+    const user = await UserModel.findById(req.params.id);
+    res.json(user);
+    
+}
+ const updateUser = async (req, res) =>{
+    const id = req.params.id;
+    const updatedValue = req.body
+    const filter = {_id: id};
+    const user = await UserModel.findOneAndUpdate(filter, updatedValue, {
+        new: true,
+    })
+    res.send(user)
+} 
+
+const deleteUser = async (req, res) =>{
+    const id = req.params.id;
+    const user = await UserModel.deleteOne({id});
+    console.log(user)
+    res.send(user)
+} 
+
 
 module.exports = { createUser, getUser, deleteUser, updateUser, singleUser };
