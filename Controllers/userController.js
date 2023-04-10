@@ -14,12 +14,12 @@ const singleUser = async (req, res) =>{
     const user = await UserModel.findById(req.params.id);
     res.json(user);
 }
-const updateUser = async (req, res) =>{
+ const updateUser = async (req, res) =>{
     res.json("user created")
-}
+} 
 
 const deleteUser = async (req, res) =>{
     res.json("user created")
-}
+} 
 
 module.exports={createUser, getUser, deleteUser, updateUser, singleUser}
