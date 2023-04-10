@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 const userSchema = mongoose.Schema(
   {
-    name: { type: String, trim: true, required: true },
-    email: { type: String, trim: true, required: true, unique: true },
-    uid: { type: String, trim: true, required: true },
-    verified: { type: Boolean, trim: true, required: true },
+    name: { type: String, trim: true },
+    email: { type: String, trim: true, unique: true },
+    uid: { type: String, trim: true, required: true, unique: true },
+    verified: { type: Boolean, trim: true },
     pic: {
       type: String,
       default:
