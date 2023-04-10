@@ -5,6 +5,7 @@ const app = express();
 const port = process.env.PORT || 5000;
 const mongoose = require('mongoose');
 const UserRoute = require('./Routes/UserRoute')
+const ServicesRoute = require('./Routes/ServicesRoute')
 const bodyParser = require('body-parser')
 const swaggerJsdoc = require("swagger-jsdoc")
 const swaggerUi = require("swagger-ui-express")
@@ -60,6 +61,7 @@ const specs = swaggerJsdoc(options);
 // userRoute
 
 app.use('/user', UserRoute);
+app.use('/service', ServicesRoute)
 app.use(
   "/api-docs",
   swaggerUi.serve,
