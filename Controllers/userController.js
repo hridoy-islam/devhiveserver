@@ -67,4 +67,6 @@ const deleteUser = async (req, res) => {
   const user = await UserModel.deleteOne({ id });
   console.log(user);
   res.send(user);
-};
+} 
+
+module.exports={createUser, getUser, deleteUser, updateUser, singleUser}
