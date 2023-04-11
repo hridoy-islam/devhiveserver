@@ -9,7 +9,8 @@ const {
 const router = express.Router();
 
 // define the home page route
-// router.get('/', getUser)
+//
+
 router.route("/").post(createUser).get(getUser);
 
 router.get("/:id", singleUser);

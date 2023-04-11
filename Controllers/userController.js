@@ -4,9 +4,7 @@ const asyncHandler = require("express-async-handler");
 const singleUser = async (req, res) => {
   res.json("user singleId");
 };
-const deleteUser = async (req, res) => {
-  res.json("user created");
-};
+
 const createUser = asyncHandler(async (req, res) => {
   const { name, email, uid, verified, pic } = req.body;
   console.log(req.body);
@@ -64,4 +62,9 @@ const getUser = asyncHandler(async (req, res) => {
   res.json(users);
 });
 
-module.exports = { createUser, getUser, deleteUser, updateUser, singleUser };
+const deleteUser = async (req, res) => {
+  const id = req.params.id;
+  const user = await UserModel.deleteOne({ id });
+  console.log(user);
+  res.send(user);
+};
