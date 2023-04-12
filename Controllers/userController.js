@@ -45,31 +45,27 @@ const getUser = asyncHandler(async (req, res) => {
         ],
       }
     : {};
-
 });
 
+const singleUser = async (req, res) => {
+  const user = await User.findById(req.params.id);
+  res.json(user);
+};
+const updateUser = async (req, res) => {
+  const id = req.params.id;
+  const updatedValue = req.body;
+  const filter = { _id: id };
+  const user = await User.findOneAndUpdate(filter, updatedValue, {
+    new: true,
+  });
+  res.send(user);
+};
 
+const deleteUser = async (req, res) => {
+  const id = req.params.id;
+  const user = await User.deleteOne({ id });
+  console.log(user);
+  res.send(user);
+};
 
-const singleUser = async (req, res) =>{
-    const user = await UserModel.findById(req.params.id);
-    res.json(user);
-    
-}
- const updateUser = async (req, res) =>{
-    const id = req.params.id;
-    const updatedValue = req.body
-    const filter = {_id: id};
-    const user = await UserModel.findOneAndUpdate(filter, updatedValue, {
-        new: true,
-    })
-    res.send(user)
-} 
-
-const deleteUser = async (req, res) =>{
-    const id = req.params.id;
-    const user = await UserModel.deleteOne({id});
-    console.log(user)
-    res.send(user)
-} 
-
-module.exports={createUser, getUser, deleteUser, updateUser, singleUser}
+module.exports = { createUser, getUser, deleteUser, updateUser, singleUser };
