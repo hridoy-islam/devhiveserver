@@ -1,6 +1,12 @@
 const User = require("../Model/userModel");
 const generateToken = require("../config/generateToken");
 const asyncHandler = require("express-async-handler");
+<<<<<<< HEAD
+=======
+const singleUser = async (req, res) => {
+  res.json("user singleId");
+};
+>>>>>>> 7ae1625caccd47daff36e7ec054fac7922830806
 
 const createUser = asyncHandler(async (req, res) => {
   const { name, email, uid, verified, pic } = req.body;
@@ -45,6 +51,7 @@ const getUser = asyncHandler(async (req, res) => {
         ],
       }
     : {};
+<<<<<<< HEAD
 
 });
 
@@ -71,6 +78,19 @@ const deleteUser = async (req, res) =>{
     console.log(user)
     res.send(user)
 } 
+=======
+>>>>>>> 7ae1625caccd47daff36e7ec054fac7922830806
 
 
+<<<<<<< HEAD
 module.exports = { createUser, getUser, deleteUser, updateUser, singleUser };
+=======
+const deleteUser = async (req, res) => {
+  const id = req.params.id;
+  const user = await UserModel.deleteOne({ id });
+  console.log(user);
+  res.send(user);
+} 
+
+module.exports={createUser, getUser, deleteUser, updateUser, singleUser}
+>>>>>>> 7ae1625caccd47daff36e7ec054fac7922830806

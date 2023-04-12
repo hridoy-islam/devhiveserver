@@ -4,10 +4,9 @@ require("dotenv").config();
 const app = express();
 const port = process.env.PORT || 5000;
 const mongoose = require('mongoose');
-const UserRoute = require('./Routes/UserRoute')
+const UserRoute = require("./Routes/UserRoute");
 const ServicesRoute = require('./Routes/ServicesRoute')
-const bodyParser = require('body-parser')
-const swaggerJsdoc = require("swagger-jsdoc")
+const bodyParser = require("body-parser");const swaggerJsdoc = require("swagger-jsdoc")
 const swaggerUi = require("swagger-ui-express")
 
 
@@ -18,9 +17,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // getting-started.js
 
-main().catch((err) => console.log(err));
+main().catch(err => console.log(err));
 
 async function main() {
+<<<<<<< HEAD
   await mongoose
     .connect(process.env.MONGO_URL, {
       useNewUrlParser: true,
@@ -28,6 +28,12 @@ async function main() {
     })
     .then(() => console.log("mongodb connected"));
 
+=======
+  await mongoose.connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  });
+>>>>>>> 7ae1625caccd47daff36e7ec054fac7922830806
 }
 
 
@@ -71,10 +77,13 @@ app.use(
   swaggerUi.setup(specs)
 );
 
+<<<<<<< HEAD
 app.get("/", async (req, res) => {
   res.send("Devhive server is running");
 });
 
+=======
+>>>>>>> 7ae1625caccd47daff36e7ec054fac7922830806
 app.listen(port, () => {
   console.log(`Devhive is running: ${port}`);
 });
