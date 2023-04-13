@@ -8,9 +8,11 @@ const createUser = asyncHandler(async (req, res) => {
   // res.json("user created")
   const userExists = await User.findOne({ uid });
   if (userExists) {
-    res
-      .status(422)
-      .json({ error: "User already exists", token: generateToken(uid) });
+    res.status(422).json({
+      error: "User already exists",
+      token: generateToken(userExists._id),
+      userExists,
+    });
     throw new Error("User already exists");
   }
   const user = await User.create({
@@ -28,7 +30,7 @@ const createUser = asyncHandler(async (req, res) => {
       uid: user.uid,
       pic: user.pic,
       verified: user.verified,
-      token: generateToken(user.uid),
+      token: generateToken(user._id),
     });
   } else {
     res.status(400);
@@ -36,7 +38,7 @@ const createUser = asyncHandler(async (req, res) => {
   }
 });
 
-const getUser = asyncHandler(async (req, res) => {
+const  getUser = asyncHandler(async (req, res) => {
   const keyword = req.query.search
     ? {
         $or: [
