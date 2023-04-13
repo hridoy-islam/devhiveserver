@@ -20,20 +20,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 main().catch(err => console.log(err));
 
 async function main() {
-<<<<<<< HEAD
-  await mongoose
-    .connect(process.env.MONGO_URL, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    })
-    .then(() => console.log("mongodb connected"));
-
-=======
   await mongoose.connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true
   });
->>>>>>> 7ae1625caccd47daff36e7ec054fac7922830806
 }
 
 
@@ -77,13 +67,11 @@ app.use(
   swaggerUi.setup(specs)
 );
 
-<<<<<<< HEAD
 app.get("/", async (req, res) => {
   res.send("Devhive server is running");
 });
 
-=======
->>>>>>> 7ae1625caccd47daff36e7ec054fac7922830806
+
 app.listen(port, () => {
   console.log(`Devhive is running: ${port}`);
 });

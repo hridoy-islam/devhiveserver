@@ -1,12 +1,6 @@
 const User = require("../Model/userModel");
 const generateToken = require("../config/generateToken");
 const asyncHandler = require("express-async-handler");
-<<<<<<< HEAD
-=======
-const singleUser = async (req, res) => {
-  res.json("user singleId");
-};
->>>>>>> 7ae1625caccd47daff36e7ec054fac7922830806
 
 const createUser = asyncHandler(async (req, res) => {
   const { name, email, uid, verified, pic } = req.body;
@@ -14,9 +8,11 @@ const createUser = asyncHandler(async (req, res) => {
   // res.json("user created")
   const userExists = await User.findOne({ uid });
   if (userExists) {
-    res
-      .status(422)
-      .json({ error: "User already exists", token: generateToken(uid) });
+    res.status(422).json({
+      error: "User already exists",
+      token: generateToken(userExists._id),
+      userExists,
+    });
     throw new Error("User already exists");
   }
   const user = await User.create({
@@ -34,7 +30,7 @@ const createUser = asyncHandler(async (req, res) => {
       uid: user.uid,
       pic: user.pic,
       verified: user.verified,
-      token: generateToken(user.uid),
+      token: generateToken(user._id),
     });
   } else {
     res.status(400);
@@ -42,7 +38,7 @@ const createUser = asyncHandler(async (req, res) => {
   }
 });
 
-const getUser = asyncHandler(async (req, res) => {
+const  getUser = asyncHandler(async (req, res) => {
   const keyword = req.query.search
     ? {
         $or: [
@@ -51,46 +47,27 @@ const getUser = asyncHandler(async (req, res) => {
         ],
       }
     : {};
-<<<<<<< HEAD
-
 });
 
+const singleUser = async (req, res) => {
+  const user = await User.findById(req.params.id);
+  res.json(user);
+};
+const updateUser = async (req, res) => {
+  const id = req.params.id;
+  const updatedValue = req.body;
+  const filter = { _id: id };
+  const user = await User.findOneAndUpdate(filter, updatedValue, {
+    new: true,
+  });
+  res.send(user);
+};
 
-
-const singleUser = async (req, res) =>{
-    const user = await UserModel.findById(req.params.id);
-    res.json(user);
-    
-}
- const updateUser = async (req, res) =>{
-    const id = req.params.id;
-    const updatedValue = req.body
-    const filter = {_id: id};
-    const user = await UserModel.findOneAndUpdate(filter, updatedValue, {
-        new: true,
-    })
-    res.send(user)
-} 
-
-const deleteUser = async (req, res) =>{
-    const id = req.params.id;
-    const user = await UserModel.deleteOne({id});
-    console.log(user)
-    res.send(user)
-} 
-=======
->>>>>>> 7ae1625caccd47daff36e7ec054fac7922830806
-
-
-<<<<<<< HEAD
-module.exports = { createUser, getUser, deleteUser, updateUser, singleUser };
-=======
 const deleteUser = async (req, res) => {
   const id = req.params.id;
-  const user = await UserModel.deleteOne({ id });
+  const user = await User.deleteOne({ id });
   console.log(user);
   res.send(user);
-} 
+};
 
-module.exports={createUser, getUser, deleteUser, updateUser, singleUser}
->>>>>>> 7ae1625caccd47daff36e7ec054fac7922830806
+module.exports = { createUser, getUser, deleteUser, updateUser, singleUser };
