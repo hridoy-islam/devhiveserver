@@ -70,7 +70,7 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   const id = req.params.id;
-  const user = await User.deleteOne({ id });
+  const user = await User.deleteOne({ _id: id });
   console.log(user);
   res.send(user);
 };

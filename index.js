@@ -3,12 +3,13 @@ const cors = require("cors");
 require("dotenv").config();
 const app = express();
 const port = process.env.PORT || 5000;
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const UserRoute = require("./Routes/UserRoute");
-const ServicesRoute = require('./Routes/ServicesRoute')
-const bodyParser = require("body-parser");const swaggerJsdoc = require("swagger-jsdoc")
-const swaggerUi = require("swagger-ui-express")
-
+const ServicesRoute = require("./Routes/ServicesRoute");
+const CategoryRoute = require("./Routes/CategoryRoute");
+const bodyParser = require("body-parser");
+const swaggerJsdoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
 
 // middleware
 app.use(cors());
@@ -17,15 +18,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // getting-started.js
 
-main().catch(err => console.log(err));
+main().catch((err) => console.log(err));
 
 async function main() {
   await mongoose.connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
   });
 }
-
 
 const options = {
   definition: {
@@ -56,21 +56,16 @@ const options = {
 
 const specs = swaggerJsdoc(options);
 
-
 // userRoute
 
-app.use('/user', UserRoute);
-app.use('/service', ServicesRoute)
-app.use(
-  "/api-docs",
-  swaggerUi.serve,
-  swaggerUi.setup(specs)
-);
+app.use("/user", UserRoute);
+app.use("/service", ServicesRoute);
+app.use("/category", CategoryRoute);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
 app.get("/", async (req, res) => {
   res.send("Devhive server is running");
 });
-
 
 app.listen(port, () => {
   console.log(`Devhive is running: ${port}`);
