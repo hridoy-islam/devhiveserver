@@ -38,7 +38,12 @@ const createUser = asyncHandler(async (req, res) => {
   }
 });
 
-const  getUser = asyncHandler(async (req, res) => {
+const allUser = async (req, res) => {
+  const user = await User.find();
+  res.send(user);
+};
+
+const getUser = asyncHandler(async (req, res) => {
   const keyword = req.query.search
     ? {
         $or: [
@@ -70,4 +75,11 @@ const deleteUser = async (req, res) => {
   res.send(user);
 };
 
-module.exports = { createUser, getUser, deleteUser, updateUser, singleUser };
+module.exports = {
+  createUser,
+  getUser,
+  allUser,
+  deleteUser,
+  updateUser,
+  singleUser,
+};
