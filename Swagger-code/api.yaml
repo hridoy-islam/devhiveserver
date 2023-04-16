@@ -14,7 +14,7 @@ paths:
   /user/{_id}:
     get:
       tags:
-        - Get User Details of a single user
+        - User
       summary: Detail info of a single user.
       description: Return a list of a user's detail info.
       parameters:
@@ -31,7 +31,7 @@ paths:
   /user:
     post:
       tags:
-        - Register / Login User
+        - User
       summary: Register user or (if exists) login a user.
       description: |
         Request:<br /><br />
@@ -75,16 +75,47 @@ paths:
   /user/all:
     get:
       tags:
-        - Get All User Info
-      summary: Detail info of all users.
+        - User
+      summary: Get Detail info of all users.
       description: Only admins can access this endpoint.
+      parameters:
+        - name: page
+          in: query
+          description: Page number
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: limit
+          in: query
+          description: Number of users per page
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
       security:
         - bearerAuth: []
       responses:
         "200":
           description: OK!
+        "401":
+          description: Unauthorized!
     security:
       - bearerAuth: []
+  /category:
+    get:
+      tags:
+        - Category
+      summary: Detail info of all categories.
+      description: Everyone can access this endpoint.
+      responses:
+        "200":
+          description: OK!
+
+# bearer token auth added
 components:
   securitySchemes:
     bearerAuth:

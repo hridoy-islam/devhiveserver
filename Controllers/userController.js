@@ -39,7 +39,11 @@ const createUser = asyncHandler(async (req, res) => {
 });
 
 const allUser = async (req, res) => {
-  const user = await User.find();
+  const page = req.query.page ? parseInt(req.query.page) : 1;
+  const limit = req.query.limit ? parseInt(req.query.limit) : 50;
+  const skipIndex = (page - 1) * limit;
+  const user = await User.find().skip(skipIndex).limit(limit);
+
   res.send(user);
 };
 
