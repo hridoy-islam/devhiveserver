@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: devHive API Documentation
-  description: Written and tested by  [Mr. Hasan](https://github.com/hasanshahriar32).
+  description: Written and tested by [Mr. Hasan](https://github.com/hasanshahriar32).
   version: 1.0.0
 servers:
   - url: http://localhost:5000
@@ -11,38 +11,35 @@ servers:
   - url: https://server-five-lime.vercel.app
     description: Main working server
 paths:
-  /user/{userId}:
+  /user/{_id}:
     get:
       tags:
         - Get User Details of a single user
-      summary: Detail info of a single user..
+      summary: Detail info of a single user.
       description: Return a list of a user's detail info.
       parameters:
-        - name: userId
+        - name: _id
           in: path
           required: true
-          description:
+          schema:
             type: string
             example: "643378688002fac4f0138cbe"
-
       responses:
-        "200": # status code
+        "200":
           description: OK!
 
-  paths:
   /user:
     post:
       tags:
         - Register / Login User
-      summary: Register user or(if exists) login a user
-      description: <b>Request:-</b><br /><br />
-        <b>name</b> </br>
-        <b>email*</b> is required </br>
-        <b>uid*</b> is required </br>
-        <b>verified</b> </br>
-        <b>pic</b> </br>
-      # parameters:
-      post:
+      summary: Register user or (if exists) login a user.
+      description: |
+        Request:<br /><br />
+        name (string)<br />
+        email (required, string)<br />
+        uid (required, string)<br />
+        verified (boolean)<br />
+        pic (string)
       requestBody:
         required: true
         content:
@@ -65,13 +62,33 @@ paths:
                 pic:
                   type: string
                   example: "https://e1.pngegg.com/pngimages/444/382/png-clipart-frost-pro-for-os-x-icon-set-now-free-contacts-male-profile.png"
-
       responses:
-        "200": # status code
+        "200":
           description: The web server is working correctly!
-        "201": # status code
+        "201":
           description: User create success!
-        "422": # status code
+        "422":
           description: User already exists!
-        "400": # status code
+        "400":
           description: Invalid user data!
+
+  /user/all:
+    get:
+      tags:
+        - Get All User Info
+      summary: Detail info of all users.
+      description: Only admins can access this endpoint.
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: OK!
+    security:
+      - bearerAuth: []
+components:
+  securitySchemes:
+    bearerAuth:
+      type: apiKey
+      name: Authorization
+      in: header
+      description: Enter your JWT token with the prefix 'Bearer '.
