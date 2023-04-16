@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: devHive API Documentation
-  description: Written and tested by [Mr. Hasan](https://github.com/hasanshahriar32).
+  description: Written and tested by [Mr. Hasan](https://github.com/hasanshahriar32).<br /><br /><b> [Visit Site](https://devhiveclient.vercel.app)</b>
   version: 1.0.0
 servers:
   - url: http://localhost:5000
