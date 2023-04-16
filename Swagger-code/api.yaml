@@ -3,22 +3,75 @@ info:
   title: devHive API Documentation
   description: Written and tested by  [Mr. Hasan](https://github.com/hasanshahriar32).
   version: 1.0.0
-# servers:
-#   - url: http://api.example.com/v1
-#     description: Optional server description, e.g. Main (production) server
-#   - url: http://staging-api.example.com
-#     description: Optional server description, e.g. Internal staging server for testing
-# paths:
-#   /users:
-#     get:
-#       summary: Returns a list of users.
-#       description: Optional extended description in CommonMark or HTML.
-#       responses:
-#         "200": # status code
-#           description: A JSON array of user names
-#           content:
-#             application/json:
-#               schema:
-#                 type: array
-#                 items:
-#                   type: string
+servers:
+  - url: http://localhost:5000
+    description: Development Server
+  - url: https://devhiveserver.vercel.app
+    description: Internal staging server for testing
+  - url: https://server-five-lime.vercel.app
+    description: Main working server
+paths:
+  /user/{userId}:
+    get:
+      tags:
+        - Get User Details of a single user
+      summary: Detail info of a single user..
+      description: Return a list of a user's detail info.
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description:
+            type: string
+            example: "643378688002fac4f0138cbe"
+
+      responses:
+        "200": # status code
+          description: OK!
+
+  paths:
+  /user:
+    post:
+      tags:
+        - Register / Login User
+      summary: Register user or(if exists) login a user
+      description: <b>Request:-</b><br /><br />
+        <b>name</b> </br>
+        <b>email*</b> is required </br>
+        <b>uid*</b> is required </br>
+        <b>verified</b> </br>
+        <b>pic</b> </br>
+      # parameters:
+      post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "hasan"
+                email:
+                  type: string
+                  example: "email@unique.com"
+                uid:
+                  type: string
+                  example: "UN1QU3uid"
+                verified:
+                  type: boolean
+                  example: true
+                pic:
+                  type: string
+                  example: "https://e1.pngegg.com/pngimages/444/382/png-clipart-frost-pro-for-os-x-icon-set-now-free-contacts-male-profile.png"
+
+      responses:
+        "200": # status code
+          description: The web server is working correctly!
+        "201": # status code
+          description: User create success!
+        "422": # status code
+          description: User already exists!
+        "400": # status code
+          description: Invalid user data!
