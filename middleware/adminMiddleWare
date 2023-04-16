@@ -24,7 +24,7 @@ const adminProtect = asyncHandler(async (req, res, next) => {
         next();
       } else {
         res.status(401);
-        throw new Error("Not authorized, forbidden");
+        throw new Error("Chill out! you're not an admin");
       }
     } catch (error) {
       console.error(error);
