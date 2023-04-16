@@ -17,7 +17,7 @@ const serviceSchema = new Schema({
         {
         name: String,
         title: String,
-        details: String,
+        detail: String,
         features:[],
         total: Number,
         },
