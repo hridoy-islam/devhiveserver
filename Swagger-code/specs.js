@@ -20,7 +20,7 @@ const options = {
 
 module.exports = {
   swaggerServe: swaggerUI.serve,
-  swaggerSetup: swaggerUI.setup(swaggerJSDocs, options,{ customCssUrl: CSS_URL } ),
+  swaggerSetup: swaggerUI.setup(swaggerJSDocs,{ customCssUrl: CSS_URL } ),
 };
 
 
