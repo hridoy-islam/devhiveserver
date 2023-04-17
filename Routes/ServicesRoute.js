@@ -1,5 +1,6 @@
 const express = require('express')
 const { createService, getService, updateService, deleteService, getSingleService} = require('../Controllers/serviceController')
+const { protect } = require('../middleware/authMiddleWare')
 const router = express.Router()
 
 
@@ -11,8 +12,8 @@ router.get('/', getService)
 
 router.get('/:id', getSingleService)
 
-router.delete('/:id', deleteService)
+router.delete('/:id', protect, deleteService)
 
-router.patch('/:id', updateService)
+router.patch('/:id', protect, updateService)
 
 module.exports = router

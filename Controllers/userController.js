@@ -38,7 +38,16 @@ const createUser = asyncHandler(async (req, res) => {
   }
 });
 
-const  getUser = asyncHandler(async (req, res) => {
+const allUser = async (req, res) => {
+  const page = req.query.page ? parseInt(req.query.page) : 1;
+  const limit = req.query.limit ? parseInt(req.query.limit) : 50;
+  const skipIndex = (page - 1) * limit;
+  const user = await User.find().skip(skipIndex).limit(limit);
+
+  res.send(user);
+};
+
+const getUser = asyncHandler(async (req, res) => {
   const keyword = req.query.search
     ? {
         $or: [
@@ -65,9 +74,16 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   const id = req.params.id;
-  const user = await User.deleteOne({ id });
+  const user = await User.deleteOne({ _id: id });
   console.log(user);
   res.send(user);
 };
 
-module.exports = { createUser, getUser, deleteUser, updateUser, singleUser };
+module.exports = {
+  createUser,
+  getUser,
+  allUser,
+  deleteUser,
+  updateUser,
+  singleUser,
+};

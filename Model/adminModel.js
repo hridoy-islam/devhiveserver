@@ -5,7 +5,8 @@ const userSchema = mongoose.Schema(
     email: { type: String, trim: true, unique: true },
     uid: { type: String, trim: true, required: true, unique: true },
     verified: { type: Boolean, trim: true },
-
+    isAdmin: { type: Boolean, trim: true },
+    isSuperAdmin: { type: Boolean, trim: true },
     pic: {
       type: String,
       default:
@@ -17,6 +18,6 @@ const userSchema = mongoose.Schema(
   }
 );
 
-const User = mongoose.model("User", userSchema);
+const Admin = mongoose.model("Admin", userSchema);
 
-module.exports = User;
+module.exports = Admin;

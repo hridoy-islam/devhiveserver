@@ -7,7 +7,10 @@ const createService = async (req, res) =>{
     res.send(result)
 } 
 const getService = async (req, res) =>{
-    const services = await serviceModel.find({}).limit(20);
+    const page = req.query.page ? parseInt(req.query.page) : 1;
+    const limit = req.query.limit ? parseInt(req.query.limit) : 50; 
+    const skipIndex = (page - 1) * limit;
+    const services = await serviceModel.find({}).skip(skipIndex).limit(limit);
     res.json(services);
     
 }
