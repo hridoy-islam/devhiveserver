@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 const UserRoute = require("./Routes/UserRoute");
 const ServicesRoute = require("./Routes/ServicesRoute");
 const CategoryRoute = require("./Routes/CategoryRoute");
+const AdminRoute = require("./Routes/AdminRoute");
 const bodyParser = require("body-parser");
 const { swaggerServe, swaggerSetup } = require("./Swagger-code/specs.js");
 // middleware
@@ -28,6 +29,7 @@ async function main() {
 app.use("/user", UserRoute);
 app.use("/service", ServicesRoute);
 app.use("/category", CategoryRoute);
+app.use("/admin", AdminRoute);
 app.use("/", swaggerServe, swaggerSetup);
 app.use("/api-docs", swaggerServe, swaggerSetup);
 

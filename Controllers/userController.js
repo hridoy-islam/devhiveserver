@@ -56,6 +56,11 @@ const getUser = asyncHandler(async (req, res) => {
         ],
       }
     : {};
+  const users = await User.find({ ...keyword })
+    .find({})
+    .limit(10);
+  // const users = await User.find({ ...keyword }).find;
+  res.json(users);
 });
 
 const singleUser = async (req, res) => {

@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: devHive API Documentation
-  description: Written and tested by [Mr. Hasan](https://github.com/hasanshahriar32).
+  description: Written and tested by [Mr. Hasan](https://github.com/hasanshahriar32).<br /><br /><b> [Visit Site](https://devhiveclient.vercel.app)</b>
   version: 1.0.0
 servers:
   - url: http://localhost:5000
@@ -11,6 +11,37 @@ servers:
   - url: https://server-five-lime.vercel.app
     description: Main working server
 paths:
+  /user/user:
+    get:
+      tags:
+        - User
+      summary: "Get a list (limit: 10) of users by search "
+      description: Search by email address or name.
+      parameters:
+        - name: search
+          in: query
+          description: "User's email or name"
+          required: true
+          type: string
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                _id:
+                  type: string
+                  description: "User ID"
+                name:
+                  type: string
+                  description: "User name"
+                email:
+                  type: string
+                  description: "User email"
+
+  paths:
   /user/{_id}:
     get:
       tags:
@@ -114,6 +145,37 @@ paths:
       responses:
         "200":
           description: OK!
+
+  /admin:
+    post:
+      tags:
+        - Admin
+      summary: Register admin or (if exists) login a admin.
+      description: |
+        <ul>The requested id should be registered as an user</ul>
+        Request:<br /><br />
+        _id (required, string)<br />
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                _id:
+                  type: string
+                  example: "643ba76fbcc93dcd0016a44c"
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: The web server is working correctly!
+        "201":
+          description: Admin create success!
+        "422":
+          description: Admin already exists!
+        "400":
+          description: Invalid Admin data!
 
 # bearer token auth added
 components:

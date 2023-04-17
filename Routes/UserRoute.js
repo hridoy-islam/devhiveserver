@@ -13,7 +13,7 @@ const { protect } = require("../middleware/authMiddleWare");
 const { adminProtect } = require("../middleware/adminMiddleWare");
 
 router.post("/", createUser);
-router.get("/", getUser);
+router.get("/user", getUser);
 router.get("/all", adminProtect, allUser);
 router.get("/:id", singleUser);
 router.delete("/:id", protect, deleteUser);
