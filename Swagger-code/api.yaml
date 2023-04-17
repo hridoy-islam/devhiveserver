@@ -41,24 +41,6 @@ paths:
                   type: string
                   description: "User email"
 
-  paths:
-  /user/{_id}:
-    get:
-      tags:
-        - User
-      summary: Detail info of a single user.
-      description: Return a list of a user's detail info.
-      parameters:
-        - name: _id
-          in: path
-          required: true
-          schema:
-            type: string
-            example: "643378688002fac4f0138cbe"
-      responses:
-        "200":
-          description: OK!
-
   /user:
     post:
       tags:
@@ -83,10 +65,10 @@ paths:
                   example: "hasan"
                 email:
                   type: string
-                  example: "email@unique.com"
+                  example: "email@uniqueuser.com"
                 uid:
                   type: string
-                  example: "UN1QU3uid"
+                  example: "UN1QU3u1d"
                 verified:
                   type: boolean
                   example: true
@@ -101,7 +83,97 @@ paths:
         "422":
           description: User already exists!
         "400":
+          description: Invalid user
+
+  paths:
+  /user/{_id}:
+    get:
+      tags:
+        - User
+      summary: Detail info of a single user.
+      description: Return a list of a user's detail info.
+      parameters:
+        - name: _id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "643dd81016971d6822d3cae3"
+      responses:
+        "200":
+          description: OK!
+
+    patch:
+      tags:
+        - User
+      summary: Edit user details.
+      description: |
+        Request:<br /><br />
+        name (string)<br />
+        email (required, string)<br />
+        uid (required, string)<br />
+        verified (boolean)<br />
+        pic (string)
+      parameters:
+        - in: path
+          name: _id
+          required: true
+          description: The ID of the user to edit.
+          schema:
+            type: string
+            example: "643dd81016971d6822d3cae3"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "hasan"
+                email:
+                  type: string
+                  example: "email@uniqueuser.com"
+                uid:
+                  type: string
+                  example: "UN1QU3u1d"
+                verified:
+                  type: boolean
+                  example: true
+                pic:
+                  type: string
+                  example: "https://e1.pngegg.com/pngimages/444/382/png-clipart-frost-pro-for-os-x-icon-set-now-free-contacts-male-profile.png"
+
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: The web server is working correctly!
+        "404":
+          description: User not found!
+        "422":
           description: Invalid user data!
+
+    delete:
+      tags:
+        - User
+      summary: Delete user.
+      parameters:
+        - in: path
+          name: _id
+          required: true
+          description: The ID of the user to delete.
+          schema:
+            type: string
+            example: "643dd81016971d6822d3cae3"
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: The web server is working correctly!
+        "404":
+          description: User not found!
 
   /user/all:
     get:
