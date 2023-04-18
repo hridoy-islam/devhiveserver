@@ -4,10 +4,10 @@ info:
   description: Written and tested by [Mr. Hasan](https://github.com/hasanshahriar32).<br /><br /><b> [Visit Site](https://devhiveclient.vercel.app)</b>
   version: 1.0.0
 servers:
-  - url: http://localhost:5000
-    description: Development Server
   - url: https://devhiveserver.vercel.app
     description: Internal staging server for testing
+  - url: http://localhost:5000
+    description: Development Server
   - url: https://server-five-lime.vercel.app
     description: Main working server
 paths:
@@ -175,12 +175,14 @@ paths:
         "404":
           description: User not found!
 
+  
   /user/all:
     get:
       tags:
         - User
       summary: Get Detail info of all users.
-      description: Only admins can access this endpoint.
+      description: |
+        <strong>Only admins can access this!<br /><hr /></strong>
       parameters:
         - name: page
           in: query
@@ -218,6 +220,150 @@ paths:
         "200":
           description: OK!
 
+    post:
+      tags:
+        - Category
+      summary: Register category or (if exists) get details of it.
+      description: |
+        <strong>Only admins can access this!<br /><hr /></strong>
+        Request:<br /><br />
+        name (string)<br />
+        image (string)
+        route (required, string)<br />
+        about (string)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Programming & Tech"
+                image:
+                  type: string
+                  example: "https://i.pinimg.com/originals/e4/26/70/e426702edf874b181aced1e2fa5c6cde.gif"
+                route:
+                  type: string
+                  example: "/programming"
+                about:
+                  type: string
+                  example: "about the programming section/ category"
+
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: The web server is working correctly!
+        "201":
+          description: Category create success!
+        "422":
+          description: Category already exists!
+        "400":
+          description: Invalid Category
+        "401":
+          description: Unauthorized!
+
+
+    
+  paths:
+  /category/{_id}:
+    get:
+      tags:
+        - Category
+      summary: Detail info of a single Category.
+      description: Return a list of a category's detail info.
+      parameters:
+        - name: _id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "6438a5eb2118772c696bccd3"
+      responses:
+        "200":
+          description: OK!
+
+    patch:
+      tags:
+        - Category
+      summary: Edit category details.
+      description: |
+        <strong>Only admins can access this!<br /><hr /></strong>
+        Request:<br /><br />
+        name (string)<br />
+        image (string)
+        route (required, string)<br />
+        about (string)
+      parameters:
+        - in: path
+          name: _id
+          required: true
+          description: The ID of the category to edit.
+          schema:
+            type: string
+            example: "6438a5eb2118772c696bccd3"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Programming & Tech"
+                image:
+                  type: string
+                  example: "https://i.pinimg.com/originals/e4/26/70/e426702edf874b181aced1e2fa5c6cde.gif"
+                route:
+                  type: string
+                  example: "/programming"
+                about:
+                  type: string
+                  example: "about the programming section/ category"
+
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: The web server is working correctly!
+        "404":
+          description: Category not found!
+        "422":
+          description: Invalid Category data!
+        "401":
+          description: Unauthorized!
+
+    delete:
+      tags:
+        - Category
+      summary: Delete Category.
+      description: |
+        <strong>Only admins can access this!<br /><hr /></strong>
+      parameters:
+        - in: path
+          name: _id
+          required: true
+          description: The ID of the Category to delete.
+          schema:
+            type: string
+            example: "643f22cd880dfeab0d4efae9"
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: The web server is working correctly!
+        "404":
+          description: Category not found!
+        "401":
+          description: Unauthorized!
+
+  
+
+
+
   /admin:
     post:
       tags:
@@ -248,6 +394,8 @@ paths:
           description: Admin already exists!
         "400":
           description: Invalid Admin data!
+        "401":
+          description: Unauthorized!
 
 # bearer token auth added
 components:
