@@ -86,25 +86,28 @@ const allAdmin = async (req, res) => {
 //   });
 //   res.send(user);
 // };
+const generateHashedPassword = async (password) => {
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(password, salt);
+  return hashedPassword;
+};
 const updateAdminPass = asyncHandler(async (req, res) => {
   const userId = req.params.id;
   const { currentPassword, newPassword } = req.body;
-  console.log(req.body);
 
   // Find the user in the database
   const user = await Admin.findById(userId);
   console.log("user before password update:", user);
 
   // Compare the current password entered by the user with the encrypted password in the database
-  const isMatch = await user.matchPassword(currentPassword);
+  const isMatch = await bcrypt.compare(currentPassword, user.password);
 
   if (!isMatch) {
     return res.status(400).json({ msg: "Invalid credentials" });
   }
 
-  // Encrypt the new password
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(newPassword, salt);
+  // Generate the hashed password
+  const hashedPassword = await generateHashedPassword(newPassword);
 
   // Update the user's password
   user.password = hashedPassword;
