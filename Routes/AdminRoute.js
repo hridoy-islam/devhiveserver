@@ -4,9 +4,9 @@ const router = express.Router();
 const {
   createAdmin,
   // getAdmin,
-  // allAdmin,
+  allAdmin,
   // deleteAdmin,
-  // updateAdmin,
+  updateAdminPass,
   // singleAdmin,
 } = require("../Controllers/adminController");
 const { protect } = require("../middleware/authMiddleWare");
@@ -14,9 +14,9 @@ const { adminProtect } = require("../middleware/adminMiddleWare");
 
 router.post("/", adminProtect, createAdmin);
 // router.get("/", getUser);
-// router.get("/all", adminProtect, allUser);
+router.get("/all", adminProtect, allAdmin);
 // router.get("/:id", singleUser);
 // router.delete("/:id", protect, deleteUser);
-// router.patch("/:id", protect, updateUser);
+router.patch("/change-pass/:id", adminProtect, updateAdminPass);
 
 module.exports = router;

@@ -18,7 +18,7 @@ const adminProtect = asyncHandler(async (req, res, next) => {
       //   const selectedUser = req.params.id;
       const decodedUser = decoded.id;
       console.log(decodedUser);
-      const user = await Admin.findById(decodedUser).select("-password");
+      const user = await Admin.findById(decodedUser);
       //   console.log(user);
       if (user?.isAdmin == true) {
         next();

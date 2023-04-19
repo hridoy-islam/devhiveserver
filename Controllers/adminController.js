@@ -2,6 +2,7 @@ const Admin = require("../Model/adminModel");
 const User = require("../Model/userModel");
 const generateToken = require("../config/generateToken");
 const asyncHandler = require("express-async-handler");
+const bcrypt = require("bcryptjs");
 
 const createAdmin = asyncHandler(async (req, res) => {
   const id = req.body._id;
@@ -56,14 +57,10 @@ const createAdmin = asyncHandler(async (req, res) => {
   }
 });
 
-// const allUser = async (req, res) => {
-//   const page = req.query.page ? parseInt(req.query.page) : 1;
-//   const limit = req.query.limit ? parseInt(req.query.limit) : 50;
-//   const skipIndex = (page - 1) * limit;
-//   const user = await User.find().skip(skipIndex).limit(limit);
-
-//   res.send(user);
-// };
+const allAdmin = async (req, res) => {
+  const admin = await Admin.find({}, { password: 0 });
+  res.send(admin);
+};
 
 // const getUser = asyncHandler(async (req, res) => {
 //   const keyword = req.query.search
@@ -80,7 +77,7 @@ const createAdmin = asyncHandler(async (req, res) => {
 //   const user = await User.findById(req.params.id);
 //   res.json(user);
 // };
-// const updateUser = async (req, res) => {
+// const updateAdmin = async (req, res) => {
 //   const id = req.params.id;
 //   const updatedValue = req.body;
 //   const filter = { _id: id };
@@ -89,7 +86,33 @@ const createAdmin = asyncHandler(async (req, res) => {
 //   });
 //   res.send(user);
 // };
+const updateAdminPass = asyncHandler(async (req, res) => {
+  const userId = req.params.id;
+  const { currentPassword, newPassword } = req.body;
+  console.log(req.body);
 
+  // Find the user in the database
+  const user = await Admin.findById(userId);
+  console.log("user before password update:", user);
+
+  // Compare the current password entered by the user with the encrypted password in the database
+  const isMatch = await user.matchPassword(currentPassword);
+
+  if (!isMatch) {
+    return res.status(400).json({ msg: "Invalid credentials" });
+  }
+
+  // Encrypt the new password
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+  // Update the user's password
+  user.password = hashedPassword;
+  await user.save();
+
+  console.log("user after password update:", user);
+  res.json(user);
+});
 // const deleteUser = async (req, res) => {
 //   const id = req.params.id;
 //   const user = await User.deleteOne({ _id: id });
@@ -100,8 +123,8 @@ const createAdmin = asyncHandler(async (req, res) => {
 module.exports = {
   createAdmin,
   // getUser,
-  // allUser,
+  allAdmin,
   // deleteUser,
-  // updateUser,
+  updateAdminPass,
   // singleUser,
 };
