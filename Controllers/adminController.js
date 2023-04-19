@@ -116,18 +116,22 @@ const updateAdminPass = asyncHandler(async (req, res) => {
   console.log("user after password update:", user);
   res.json(user);
 });
-// const deleteUser = async (req, res) => {
-//   const id = req.params.id;
-//   const user = await User.deleteOne({ _id: id });
-//   console.log(user);
-//   res.send(user);
-// };
+const deleteAdmin = async (req, res) => {
+  const id = req.params.id;
+  const user = await Admin.findById(id);
+  if (user.isSuperAdmin === true) {
+    return res.status(401).json({ msg: "Unauthorized" });
+  }
+  const admin = await Admin.deleteOne({ _id: id });
+  console.log(admin);
+  res.send(admin);
+};
 
 module.exports = {
   createAdmin,
   // getUser,
   allAdmin,
-  // deleteUser,
+  deleteAdmin,
   updateAdminPass,
   // singleUser,
 };

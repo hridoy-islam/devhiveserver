@@ -5,7 +5,7 @@ const {
   createAdmin,
   // getAdmin,
   allAdmin,
-  // deleteAdmin,
+  deleteAdmin,
   updateAdminPass,
   // singleAdmin,
 } = require("../Controllers/adminController");
@@ -16,7 +16,7 @@ router.post("/", adminProtect, createAdmin);
 // router.get("/", getUser);
 router.get("/all", adminProtect, allAdmin);
 // router.get("/:id", singleUser);
-// router.delete("/:id", protect, deleteUser);
+router.delete("/:id", protect, adminProtect, deleteAdmin);
 router.patch("/change-pass/:id", adminProtect, updateAdminPass);
 
 module.exports = router;
