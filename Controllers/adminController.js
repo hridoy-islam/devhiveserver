@@ -9,9 +9,16 @@ const createAdmin = asyncHandler(async (req, res) => {
   // console.log(adminExists);
   if (adminExists) {
     res.status(422).json({
-      error: "User already exists",
+      error: "Admin already exists",
       token: generateToken(id),
-      adminExists,
+      _id: adminExists._id,
+      name: adminExists.name,
+      email: adminExists.email,
+      uid: adminExists.uid,
+      pic: adminExists.pic,
+      verified: adminExists.verified,
+      isAdmin: adminExists.isAdmin,
+      isSuperAdmin: adminExists.isSuperAdmin,
     });
     throw new Error("Admin already exists");
   }
@@ -26,6 +33,7 @@ const createAdmin = asyncHandler(async (req, res) => {
     uid,
     verified,
     pic,
+    password: "",
     isAdmin: true,
     isSuperAdmin: false,
   });
@@ -39,7 +47,7 @@ const createAdmin = asyncHandler(async (req, res) => {
       verified: admin.verified,
       isAdmin: admin.isAdmin,
       isSuperAdmin: admin.isSuperAdmin,
-
+      password: admin.password,
       token: generateToken(admin._id),
     });
   } else {
