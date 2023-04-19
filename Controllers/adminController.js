@@ -107,10 +107,10 @@ const updateAdminPass = asyncHandler(async (req, res) => {
   }
 
   // Generate the hashed password
-  const hashedPassword = await generateHashedPassword(newPassword);
+  // const hashedPassword = await generateHashedPassword(newPassword);
 
   // Update the user's password
-  user.password = hashedPassword;
+  user.password = newPassword;
   await user.save();
 
   console.log("user after password update:", user);
