@@ -7,7 +7,7 @@ const {
   allAdmin,
   deleteAdmin,
   updateAdminPass,
-  // singleAdmin,
+  singleAdmin,
 } = require("../Controllers/adminController");
 const { protect } = require("../middleware/authMiddleWare");
 const { adminProtect } = require("../middleware/adminMiddleWare");
@@ -15,8 +15,8 @@ const { adminProtect } = require("../middleware/adminMiddleWare");
 router.post("/", adminProtect, createAdmin);
 // router.get("/", getUser);
 router.get("/all", adminProtect, allAdmin);
-// router.get("/:id", singleUser);
-router.delete("/:id", protect, adminProtect, deleteAdmin);
-router.patch("/change-pass/:id", adminProtect, updateAdminPass);
+router.get("/:id",protect, adminProtect, singleAdmin);
+router.delete("/:id",  adminProtect, deleteAdmin);
+router.patch("/:id",protect, adminProtect, updateAdminPass);
 
 module.exports = router;

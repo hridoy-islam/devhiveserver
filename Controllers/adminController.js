@@ -5,7 +5,18 @@ const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcryptjs");
 
 const createAdmin = asyncHandler(async (req, res) => {
-  const id = req.body._id;
+  const { id, adminmakerpass, adminmaker } = req.body;
+  console.log(req.body);
+
+  const user = await Admin.findById(adminmaker);
+  console.log("user before password update:", user);
+
+  // Compare the current password entered by the user with the encrypted password in the database
+  const isMatch = await bcrypt.compare(adminmakerpass, user.password);
+
+  if (!isMatch) {
+    return res.status(400).json({ msg: "Invalid credentials" });
+  }
   const adminExists = await Admin.findById(id);
   // console.log(adminExists);
   if (adminExists) {
@@ -48,12 +59,12 @@ const createAdmin = asyncHandler(async (req, res) => {
       verified: admin.verified,
       isAdmin: admin.isAdmin,
       isSuperAdmin: admin.isSuperAdmin,
-      password: admin.password,
+      // password: admin.password,
       token: generateToken(admin._id),
     });
   } else {
     res.status(400);
-    throw new Error("Invalid user data");
+    throw new Error("Invalid admin data");
   }
 });
 
@@ -73,10 +84,10 @@ const allAdmin = async (req, res) => {
 //     : {};
 // });
 
-// const singleUser = async (req, res) => {
-//   const user = await User.findById(req.params.id);
-//   res.json(user);
-// };
+const singleAdmin = async (req, res) => {
+  const user = await Admin.findById(req.params.id);
+  res.json(user);
+};
 // const updateAdmin = async (req, res) => {
 //   const id = req.params.id;
 //   const updatedValue = req.body;
@@ -86,11 +97,6 @@ const allAdmin = async (req, res) => {
 //   });
 //   res.send(user);
 // };
-const generateHashedPassword = async (password) => {
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(password, salt);
-  return hashedPassword;
-};
 const updateAdminPass = asyncHandler(async (req, res) => {
   const userId = req.params.id;
   const { currentPassword, newPassword } = req.body;
@@ -106,9 +112,6 @@ const updateAdminPass = asyncHandler(async (req, res) => {
     return res.status(400).json({ msg: "Invalid credentials" });
   }
 
-  // Generate the hashed password
-  // const hashedPassword = await generateHashedPassword(newPassword);
-
   // Update the user's password
   user.password = newPassword;
   await user.save();
@@ -117,9 +120,21 @@ const updateAdminPass = asyncHandler(async (req, res) => {
   res.json(user);
 });
 const deleteAdmin = async (req, res) => {
+  const {  adminterminatorpass, adminterminator } = req.body;
+  console.log(req.body);
+
+  const user = await Admin.findById(adminterminator);
+  console.log("user before password update:", user);
+
+  // Compare the current password entered by the user with the encrypted password in the database
+  const isMatch = await bcrypt.compare(adminterminatorpass, user.password);
+
+  if (!isMatch) {
+    return res.status(400).json({ msg: "Invalid credentials" });
+  }
   const id = req.params.id;
-  const user = await Admin.findById(id);
-  if (user.isSuperAdmin === true) {
+  const thisuser = await Admin.findById(id);
+  if (thisuser.isSuperAdmin === true) {
     return res.status(401).json({ msg: "Unauthorized" });
   }
   const admin = await Admin.deleteOne({ _id: id });
@@ -133,5 +148,5 @@ module.exports = {
   allAdmin,
   deleteAdmin,
   updateAdminPass,
-  // singleUser,
+  singleAdmin,
 };

@@ -363,7 +363,7 @@ paths:
   
 
 
-
+  paths:
   /admin:
     post:
       tags:
@@ -380,9 +380,15 @@ paths:
             schema:
               type: object
               properties:
-                _id:
+                id:
                   type: string
                   example: "643ba76fbcc93dcd0016a44c"
+                adminmakerpass:
+                  type: string
+                  example: ""
+                adminmaker:
+                  type: string
+                  example: "643378688002fac4f0138cbe"
       security:
         - bearerAuth: []
       responses:
@@ -393,12 +399,131 @@ paths:
         "422":
           description: Admin already exists!
         "400":
-          description: Invalid Admin data!
+          description: Invalid Admin data or credential!
+        "401":
+          description: Unauthorized!
+  paths:
+  /admin/all:
+    get:
+      tags:
+        - Admin
+      summary: Get Detail info of all admins.
+      description: |
+        <strong>Only admins can access this!<br /><hr /></strong>
+      
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: OK!
         "401":
           description: Unauthorized!
 
+  paths:
+  /admin/{_id}:
+    get:
+      tags:
+        - Admin
+      summary: Detail info of a single Admin.
+      description: <strong>Only a admin can access this for his own info!<br /><hr /></strong> <br />Return a list of a Admin's detail info.
+      parameters:
+        - name: _id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "643378688002fac4f0138cbe"
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: OK!
+        "401":
+          description: Unauthorized!
 
+    patch:
+      tags:
+        - Admin
+      summary: Edit admin password.
+      description: |
+        <strong>Only a admin can access this for his own pass change!<br /><hr /></strong>
+        Request:<br /><br />
+        currentPassword (required, string)<br />
+        newPassword (required, string)<br />
+      parameters:
+        - in: path
+          name: _id
+          required: true
+          description: The ID of the admin to edit.
+          schema:
+            type: string
+            example: "643378688002fac4f0138cbe"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                currentPassword:
+                  type: string
+                  example: ""
+                newPassword:
+                  type: string
+                  example: ""
+                
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: The web server is working correctly!
+        "404":
+          description: Admin not found!
+        "422":
+          description: Invalid Admin data!
+        "401":
+          description: Unauthorized!
+        "400":
+          description: Invalid Credential!
 
+    delete:
+      tags:
+        - Admin
+      summary: Delete Admin.
+      parameters:
+        - in: path
+          name: _id
+          required: true
+          description: The ID of the Admin to delete.
+          schema:
+            type: string
+            example: "643dd81016971d6822d3cae3"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                adminterminator:
+                  type: string
+                  example: ""
+                adminterminatorpass:
+                  type: string
+                  example: ""
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: The web server is working correctly!
+        "404":
+          description: Admin not found!
+        "401":
+          description: Unauthorized!
+        "400":
+          description: Invalid Credential!
+
+  
 
 # bearer token auth added
 components:
