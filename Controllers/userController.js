@@ -1,3 +1,4 @@
+const Admin = require("../Model/adminModel");
 const User = require("../Model/userModel");
 const generateToken = require("../config/generateToken");
 const asyncHandler = require("express-async-handler");
@@ -79,9 +80,12 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   const id = req.params.id;
+  const admin = await Admin.deleteOne({ _id: id });
   const user = await User.deleteOne({ _id: id });
-  console.log(user);
+  // console.log(user);
+  // console.log(admin);
   res.send(user);
+  res.send(admin);
 };
 
 module.exports = {
