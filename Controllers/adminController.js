@@ -120,7 +120,7 @@ const updateAdminPass = asyncHandler(async (req, res) => {
   res.json(user);
 });
 const deleteAdmin = async (req, res) => {
-  const {  adminterminatorpass, adminterminator } = req.body;
+  const { adminterminatorpass, adminterminator } = req.body;
   console.log(req.body);
 
   const user = await Admin.findById(adminterminator);
@@ -142,6 +142,20 @@ const deleteAdmin = async (req, res) => {
   res.send(admin);
 };
 
+const deleteUser = async (req, res) => {
+  const id = req.params.id;
+  const admin = await Admin.findById(req.params.id);
+  if (admin) {
+    return res.status(401).json({
+      msg: "Unauthorized! please remove user from admin privilege first",
+    });
+  }
+  const user = await User.deleteOne({ _id: id });
+  // console.log(user);
+  // console.log(admin);
+  res.send(user);
+};
+
 module.exports = {
   createAdmin,
   // getUser,
@@ -149,4 +163,5 @@ module.exports = {
   deleteAdmin,
   updateAdminPass,
   singleAdmin,
+  deleteUser,
 };

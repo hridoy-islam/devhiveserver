@@ -522,6 +522,35 @@ paths:
           description: Unauthorized!
         "400":
           description: Invalid Credential!
+  
+  
+  paths:
+  /admin/user/{_id}:  
+    
+    delete:
+      tags:
+        - Admin
+      summary: Delete User.
+      parameters:
+        - in: path
+          name: _id
+          required: true
+          description: The ID of the User to delete.
+          schema:
+            type: string
+            example: "643dd81016971d6822d3cae3"
+      
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: The web server is working correctly!
+        "404":
+          description: User not found!
+        "401":
+          description: Unauthorized or The user is an admin! Remove from admin first.
+        "400":
+          description: Invalid Credential!
 
   
 
