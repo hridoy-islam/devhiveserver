@@ -10,6 +10,8 @@ const CategoryRoute = require("./Routes/CategoryRoute");
 const AdminRoute = require("./Routes/AdminRoute");
 const bodyParser = require("body-parser");
 const { swaggerServe, swaggerSetup } = require("./Swagger-code/specs.js");
+const { notFound, errorHandler } = require("./middleware/errMiddleWare");
+
 // middleware
 app.use(cors());
 app.use(express.json());
@@ -32,6 +34,9 @@ app.use("/category", CategoryRoute);
 app.use("/admin", AdminRoute);
 app.use("/", swaggerServe, swaggerSetup);
 app.use("/api-docs", swaggerServe, swaggerSetup);
+
+app.use(notFound);
+app.use(errorHandler);
 
 app.listen(port, () => {
   console.log(`Devhive is running: ${port}`);
