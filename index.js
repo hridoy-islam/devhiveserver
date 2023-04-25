@@ -34,6 +34,7 @@ app.use("/category", CategoryRoute);
 app.use("/admin", AdminRoute);
 app.use("/", swaggerServe, swaggerSetup);
 app.use("/api-docs", swaggerServe, swaggerSetup);
+// new route for chat here
 
 app.use(notFound);
 app.use(errorHandler);
