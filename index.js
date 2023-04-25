@@ -9,7 +9,7 @@ const ServicesRoute = require("./Routes/ServicesRoute");
 const CategoryRoute = require("./Routes/CategoryRoute");
 const AdminRoute = require("./Routes/AdminRoute");
 const ChatRoute = require("./Routes/ChatRoute");
-// const MessageRoute = require("./Routes/MessageRoute");
+const MessageRoute = require("./Routes/MessageRoute");
 const bodyParser = require("body-parser");
 const { swaggerServe, swaggerSetup } = require("./Swagger-code/specs.js");
 const { notFound, errorHandler } = require("./middleware/errMiddleWare");
@@ -35,7 +35,7 @@ app.use("/service", ServicesRoute);
 app.use("/category", CategoryRoute);
 app.use("/admin", AdminRoute);
 app.use("/chat", ChatRoute);
-// app.use("/message", MessageRoute);
+app.use("/message", MessageRoute);
 app.use("/", swaggerServe, swaggerSetup);
 app.use("/api-docs", swaggerServe, swaggerSetup);
 // new route for chat here
