@@ -29,14 +29,16 @@ async function main() {
     useUnifiedTopology: true,
   });
 }
-
+app.get("/", (req, res) => {
+  res.send("api is running");
+});
 app.use("/user", UserRoute);
 app.use("/service", ServicesRoute);
 app.use("/category", CategoryRoute);
 app.use("/admin", AdminRoute);
 app.use("/chat", ChatRoute);
 app.use("/message", MessageRoute);
-app.use("/", swaggerServe, swaggerSetup);
+// app.use("/", swaggerServe, swaggerSetup);
 app.use("/api-docs", swaggerServe, swaggerSetup);
 // new route for chat here
 app.use(notFound);
