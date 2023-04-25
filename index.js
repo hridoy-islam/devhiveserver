@@ -12,7 +12,7 @@ const ChatRoute = require("./Routes/ChatRoute");
 const MessageRoute = require("./Routes/MessageRoute");
 const bodyParser = require("body-parser");
 const { swaggerServe, swaggerSetup } = require("./Swagger-code/specs.js");
-const { notFound, errorHandler } = require("./middleware/errMiddleWare");
+// const { notFound, errorHandler } = require("./middleware/errMiddleWare");
 
 // middleware
 app.use(cors());
@@ -41,8 +41,8 @@ app.use("/message", MessageRoute);
 // app.use("/", swaggerServe, swaggerSetup);
 app.use("/api-docs", swaggerServe, swaggerSetup);
 // new route for chat here
-app.use(notFound);
-app.use(errorHandler);
+// app.use(notFound);
+// app.use(errorHandler);
 
 // const server =
 app.listen(port, () => {
