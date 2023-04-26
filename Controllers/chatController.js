@@ -3,8 +3,7 @@ const Chat = require("../Model/chatModel");
 const User = require("../Model/userModel");
 
 const accessChat = asyncHandler(async (req, res) => {
-  const { userId } = req.body;
-  const ownId = req.params.id;
+  const { userId, ownId } = req.body;
 
   if (!userId) {
     console.log("UserId params not sent with request");
@@ -51,7 +50,7 @@ const accessChat = asyncHandler(async (req, res) => {
   }
 });
 const fetchChat = asyncHandler(async (req, res) => {
-  const { ownId } = req.body;
+  const ownId = req.params.id;
   try {
     Chat.find({
       $or: [{ users: { $elemMatch: { $eq: ownId } } }],
