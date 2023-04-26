@@ -3,7 +3,8 @@ const Chat = require("../Model/chatModel");
 const User = require("../Model/userModel");
 
 const accessChat = asyncHandler(async (req, res) => {
-  const { userId, ownId } = req.body;
+  const { userId } = req.body;
+  const ownId = req.params.id;
 
   if (!userId) {
     console.log("UserId params not sent with request");
