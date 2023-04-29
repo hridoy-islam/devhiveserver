@@ -29,8 +29,10 @@ const makeOrder = asyncHandler(async (req, res) => {
     tran_id: dataId, // use unique tran_id for each api call
     success_url:
       "https://devhiveserver.vercel.app/order/success?transactionId=" + dataId,
-    fail_url: "https://devhiveserver.vercel.app/order/fail",
-    cancel_url: "https://devhiveserver.vercel.app/order/cancel",
+    fail_url:
+      "https://devhiveserver.vercel.app/order/fail?transactionId=" + dataId,
+    cancel_url:
+      "https://devhiveserver.vercel.app/order/cancel?transactionId=" + dataId,
     ipn_url: "https://devhiveserver.vercel.app/order/ipn",
     shipping_method: "Online",
     product_name: "Computer.",
@@ -95,8 +97,55 @@ const orderStatus = async (req, res) => {
     );
   }
 };
+const failStatus = async (req, res) => {
+  const { transactionId } = req.query;
+  console.log("transId is: ", transactionId);
+  //delete data from database
+  res.redirect(
+    `https://devhiveclient.vercel.app/checkout/fail?transactionId=${transactionId}`
+  );
+};
+const cancelStatus = async (req, res) => {
+  const { transactionId } = req.query;
+  console.log("transId is: ", transactionId);
+  //delete data from database
+  try {
+    const order = await Order.deleteOne({ tran_id: transactionId });
+    console.log(order);
+    // res.send(order);
+    if (order.deletedCount > 0) {
+      res.redirect(
+        `https://devhiveclient.vercel.app/checkout/cancel?transactionId=${transactionId}`
+      );
+      return;
+    }
+    res.redirect(
+      `https://devhiveclient.vercel.app/checkout/fail?transactionId=${transactionId}`
+    );
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal server error");
+    res.redirect(
+      `https://devhiveclient.vercel.app/checkout/fail?transactionId=${transactionId}`
+    );
+  }
+};
+const orderDetail = async (req, res) => {
+  const tansId = req.params.id;
+  const order = await Order.findOne({ tran_id: tansId });
+  res.json(order);
+};
+const allOrders = async (req, res) => {
+  const userId = req.params.id;
+  const orders = await Order.find({ cus_id: userId });
+  res.json(orders);
+};
 
 module.exports = {
   makeOrder,
   orderStatus,
+  orderDetail,
+  allOrders,
+  failStatus,
+  cancelStatus,
 };
