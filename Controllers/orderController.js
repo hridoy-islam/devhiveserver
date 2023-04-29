@@ -28,10 +28,10 @@ const makeOrder = asyncHandler(async (req, res) => {
     currency: "BDT",
     tran_id: dataId, // use unique tran_id for each api call
     success_url:
-      "https://devhiveclient.vercel.app/order/success?transactionId=" + dataId,
-    fail_url: "https://devhiveclient.vercel.app/order/fail",
-    cancel_url: "https://devhiveclient.vercel.app/order/cancel",
-    ipn_url: "https://devhiveclient.vercel.app/order/ipn",
+      "https://devhiveserver.vercel.app/order/success?transactionId=" + dataId,
+    fail_url: "https://devhiveserver.vercel.app/order/fail",
+    cancel_url: "https://devhiveserver.vercel.app/order/cancel",
+    ipn_url: "https://devhiveserver.vercel.app/order/ipn",
     shipping_method: "Online",
     product_name: "Computer.",
     product_category: "Electronic",
@@ -80,18 +80,18 @@ const orderStatus = async (req, res) => {
     // res.send(order);
     if (order.modifiedCount > 0) {
       res.redirect(
-        `https://devhiveserver.vercel.app/checkout/success?transactionId=${transactionId}`
+        `https://devhiveclient.vercel.app/checkout/success?transactionId=${transactionId}`
       );
       return;
     }
     res.redirect(
-      `https://devhiveserver.vercel.app/checkout/fail?transactionId=${transactionId}`
+      `https://devhiveclient.vercel.app/checkout/fail?transactionId=${transactionId}`
     );
   } catch (error) {
     console.log(error);
     res.status(500).send("Internal server error");
     res.redirect(
-      `https://devhiveserver.vercel.app/checkout/fail?transactionId=${transactionId}`
+      `https://devhiveclient.vercel.app/checkout/fail?transactionId=${transactionId}`
     );
   }
 };
