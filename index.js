@@ -11,6 +11,7 @@ const AdminRoute = require("./Routes/AdminRoute");
 const ChatRoute = require("./Routes/ChatRoute");
 const OrderRoute = require("./Routes/OrderRoute");
 const MessageRoute = require("./Routes/MessageRoute");
+const DeveloperRoute = require("./Routes/DeveloperRoute");
 const bodyParser = require("body-parser");
 const { swaggerServe, swaggerSetup } = require("./Swagger-code/specs.js");
 const { notFound, errorHandler } = require("./middleware/errMiddleWare");
@@ -31,6 +32,7 @@ async function main() {
   });
 }
 
+app.use("/developer", DeveloperRoute);
 app.use("/user", UserRoute);
 app.use("/service", ServicesRoute);
 app.use("/category", CategoryRoute);
