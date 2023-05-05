@@ -1,7 +1,8 @@
 const express = require("express");
 const {
     createDeveloper,
-    getDeveloper
+    getDeveloper,
+    singleDeveloper
 } = require("../Controllers/developerController");
 
 const router = express.Router();
@@ -10,5 +11,5 @@ const router = express.Router();
 
 router.post("/", createDeveloper);
 router.get("/developer", getDeveloper);
-
+router.get('/singledeveloper/:id',singleDeveloper)
 module.exports = router;

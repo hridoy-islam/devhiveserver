@@ -5,6 +5,7 @@ const {
   updateService,
   deleteService,
   getSingleService,
+  queryService,
 } = require("../Controllers/serviceController");
 
 const router = express.Router();
@@ -14,6 +15,8 @@ const router = express.Router();
 router.post("/", createService);
 
 router.get("/", getService);
+
+router.get("/:query", queryService);
 
 router.get("/:id", getSingleService);
 
