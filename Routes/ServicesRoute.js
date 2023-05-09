@@ -5,8 +5,7 @@ const {
   updateService,
   deleteService,
   getSingleService,
-  queryService
- 
+  queryService,
 } = require("../Controllers/serviceController");
 
 const router = express.Router();
@@ -26,5 +25,3 @@ router.delete("/:id", deleteService);
 router.patch("/:id", updateService);
 
 module.exports = router;
-
-
